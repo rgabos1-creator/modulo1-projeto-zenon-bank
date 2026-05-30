@@ -1,9 +1,11 @@
 package br.com.zenon.fraud;
 
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
+import java.util.List;
 
 public class WorkFile {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         var t1 = new Transaction(1, TipoOperacao.PAYMENT, new BigDecimal("9839.04"),
                 new TransactionCustomer("C1231006815", new BigDecimal("170136.0"), new BigDecimal("160296.36")),
                 new TransactionCustomer("M1979787155", new BigDecimal("0.0"), new BigDecimal("0.0")),
@@ -16,5 +18,12 @@ public class WorkFile {
 
         System.out.println(t1);
         System.out.println(t2);
+        IO.println("-------------------------------------");
+
+        TransactionIngestor transactionIngestor = new TransactionIngestor();
+        List<Transaction> transactions = transactionIngestor.read("data/PS_20174392719_1491204439457_log.csv");
+        IO.println(transactions.size());
+
+        transactions.stream().limit(10).forEach(IO::println);
     }
 }
